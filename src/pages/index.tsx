@@ -7,7 +7,7 @@ export default function Home() {
         <title>Ínicio | ig.news</title>
       </Head>
       <h1>
-        Hello World
+        Hello World! Welcome to.
       </h1>
     </>
   )
