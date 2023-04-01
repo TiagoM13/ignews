@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -26,10 +25,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "paths": {
-    "@entities-services/*": ["src/modules/database/services/*"],
-    "@entities/*": ["src/entities/*"],
-    "@modules/*": ["src/modules/*"],
-  }
+  ]
 }

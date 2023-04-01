@@ -12,14 +12,15 @@
   color: var(--white);
   font-weight: bold;
 
-  svg { 
-    width: 20px; 
+  svg {
+    width: 20px;
     height: 20px;
   }
 
   svg:first-child {
     margin-right: 1rem;
   }
+
   svg.closeIcon {
     margin-left: 1rem;
   }
