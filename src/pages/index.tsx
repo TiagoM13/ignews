@@ -1,21 +1,13 @@
-import { GetServerSideProps } from 'next'
-import Head from 'next/head';
-import Image from 'next/image';
+import Head from "next/head";
+import Image from "next/image";
 
-import styles from './home.module.scss';
+import Img from "../../public/images/avatar.svg";
 
-import Img from '../../public/images/avatar.svg';
-import { SubscribeButton } from '../components/SubscribeButton';
-import { stripe } from '../services/stripe';
+import { SubscribeButton } from "../components/SubscribeButton";
 
-interface HomeProps {
-  product: {
-    priceId: string;
-    amount: number;
-  }
-}
+import styles from "./home.module.scss";
 
-export default function Home({ product }: HomeProps) {
+export default function Home() {
   return (
     <>
       <Head>
@@ -24,35 +16,19 @@ export default function Home({ product }: HomeProps) {
       <main className={styles.contentContainer}>
         <section className={styles.hero}>
           <span>👏 Hey, welcome</span>
-          <h1>News about the <span>React</span> world</h1>
+          <h1>
+            News about the <span>React</span> world
+          </h1>
           <p>
             Get access to all the publications <br />
-            <span>for {product.amount} months</span>
+            <span>for $0.99 months</span>
           </p>
 
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton />
         </section>
 
         <Image src={Img} alt="Girl coding" />
       </main>
     </>
-  )
-}
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const price = await stripe.prices.retrieve('price_1Ld0M2LwO9bfpa9MytPqS4jS')
-
-  const product = {
-    priceId: price.id,
-    amount: new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(price.unit_amount / 100),
-  };
-
-  return {
-    props: {
-      product,
-    }
-  }
+  );
 }
