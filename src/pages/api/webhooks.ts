@@ -22,7 +22,9 @@ export const config = {
 }
 
 const relevantEvents = new Set([
-  'checkout.session.completed'
+  'checkout.session.completed',
+  'customer.subscription.updated',
+  'customer.subscription.deleted'
 ])
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const buf = await buffer(req);
     const secret = req.headers['stripe-signature']
 
-    let event = Stripe.Event;
+    let event: Stripe.Event;
 
     try {
       event = stripe.webhooks.constructEvent(buf, secret, process.env.STRIPE_WEBHOOK_SECRET)
@@ -43,13 +45,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (relevantEvents.has(type)) {
       try {
         switch (type) {
-          case 'checkout.session.completed':
+          case 'customer.subscription.updated':
+          case 'customer.subscription.deleted':
+            const subscription = event.data.object as Stripe.Subscription;
 
+            await saveSubscription(
+              subscription.id,
+              subscription.customer.toString(),
+              false
+            )
+
+            break;
+          case 'checkout.session.completed':
             const checkoutSesseion = event.data.object as Stripe.Checkout.Session
 
             await saveSubscription(
               checkoutSesseion.subscription.toString(),
-              checkoutSesseion.customer.toString()
+              checkoutSesseion.customer.toString(),
+              true
             )
 
             break;
