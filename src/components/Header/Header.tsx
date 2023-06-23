@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import logo from "../../../public/images/logo.svg";
 
+import { ActiveLink } from "../ActiveLink/ActiveLink";
 import { SignInButton } from "../SingInButton/SignInButton";
 
 import styles from "./styles.module.scss";
@@ -13,10 +14,12 @@ const Header = () => {
       <div className={styles.headerContent}>
         <Image src={logo} alt="ig.news" />
         <nav>
-          <a className={styles.active} href="#">
+          <ActiveLink href='/' activeClassName={styles.active}>
             Home
-          </a>
-          <a href="#">Post</a>
+          </ActiveLink>
+          <ActiveLink href='/posts' activeClassName={styles.active} prefetch>
+            Post
+          </ActiveLink>
         </nav>
 
         <SignInButton />
